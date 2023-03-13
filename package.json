@@ -1,0 +1,18 @@
+{
+  "name": "binus-satcomserv",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "add-manual-target": "node ./cmd/addManualTarget.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "gm": "^1.25.0",
+    "image-to-base64": "^2.2.0",
+    "instagram-publisher": "^2.1.1",
+    "mongoose": "^7.0.1",
+    "ocr-space-api-wrapper": "^2.2.0"
+  }
+}
