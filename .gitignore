@@ -3,6 +3,7 @@
 
 ### Node ###
 # Logs
+.DS_Store
 logs
 *.log
 npm-debug.log*
@@ -142,4 +143,3 @@ dist
 .svelte-kit
 
 # End of https://www.toptal.com/developers/gitignore/api/node
-
