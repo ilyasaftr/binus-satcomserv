@@ -86,17 +86,24 @@ async function taskCheckInstagramPost() {
     // check by text
     let isSatFound = false;
     let isComservFound = false;
+    let isCertificateFound = false;
 
     const satWords = ['SAT'];
     const satRegex = new RegExp("\\b" + satWords.join("\\b|\\b") + "\\b", "gi");
-    if (instagramMediaText.match(satRegex)) {
+    if (instagramMediaText.toLocaleLowerCase().match(satRegex)) {
       isSatFound = true;
     }
 
     const comservWords = ['comserv', 'comservs', 'community service', 'community services', 'jamsos', 'jam sosial'];
     const comservRegex = new RegExp("\\b" + comservWords.join("\\b|\\b") + "\\b", "gi");
-    if (instagramMediaText.match(comservRegex)) {
+    if (instagramMediaText.toLocaleLowerCase().match(comservRegex)) {
       isComservFound = true;
+    }
+
+    const certificateWords = ['certificate', 'e-certificate', 'certificates', 'e-certificates', 'sertifikat'];
+    const certificateRegex = new RegExp("\\b" + satWords.join("\\b|\\b") + "\\b", "gi");
+    if (instagramMediaText.toLocaleLowerCase().match(certificateWords)) {
+      isCertificateFound = true;
     }
 
     // check by image
@@ -116,9 +123,13 @@ async function taskCheckInstagramPost() {
       isComservFound = true;
     }
 
+    if (ocrText.match(certificateRegex)) {
+      isCertificateFound = true;
+    }
+
     if (isSatFound || isComservFound) {
       const instagramPostModel = mongoose.model('instagramPosts', instagramPostSchema);
-      let textCaption = `SAT : ${isSatFound ? '✅' : '❌'}\nComServ : ${isComservFound ? '✅' : '❌'}\n\n`;
+      let textCaption = `SAT : ${isSatFound ? '✅' : '❌'}\nComServ : ${isComservFound ? '✅' : '❌'}\nCertificate : ${isCertificateFound ? '✅' : '❌'}\n\n`;
 
       const regex = /https?:\/\/[^\s]*|www\.[^\s]*|[^\s]+\.[^\s]{2,}/gi;
       const links = instagramMediaText.match(regex);
