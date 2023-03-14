@@ -1,5 +1,5 @@
-FROM node:16-alpine
-RUN apt-get update && apt-get install -y graphicsmagick
+FROM node:lts
+RUN apt-get update -y && apt-get install -y graphicsmagick
 WORKDIR /app
 COPY package.json ./
 RUN npm install
