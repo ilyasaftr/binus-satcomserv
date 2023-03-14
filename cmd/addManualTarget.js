@@ -4,7 +4,7 @@ const fs = require('fs');
 const connectDB = require('../config/database');
 const instagramTargetSchema = require('../models/instagramTargetModel');
 
-async function addManual() {
+async function UpdateInstagramTarget() {
   try {
     await connectDB();
     console.log('Application started successfully!');
@@ -42,4 +42,4 @@ async function addManual() {
   process.exit(0);
 };
 
-addManual();
+module.exports = UpdateInstagramTarget;
