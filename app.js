@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('events').EventEmitter.defaultMaxListeners = 100;
 const connectDB = require('./config/database');
 const UpdateInstagramTarget = require('./cmd/addManualTarget');
 const taskGetInstagramPost = require('./tasks/getInstagramPost');
