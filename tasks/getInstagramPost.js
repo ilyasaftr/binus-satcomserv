@@ -30,7 +30,8 @@ async function taskGetInstagramPost() {
       return;
     }
 
-    const json = await fs.promises.readFile('./cookies.json', 'utf8');
+    const cookiesPath = path.join(process.cwd(), 'cookies.json');
+    const json = await fs.promises.readFile(cookiesPath, 'utf8');
     const cookiesData = JSON.parse(json);
     let _cookie =  '';
     for(data of cookiesData){
@@ -66,6 +67,7 @@ async function taskGetInstagramPost() {
         console.log(`[getInstagramPost] Skip ${mediaId} because mediaTime is more than 1 week ago`);
         continue;
       }
+      console.log(`[getInstagramPost] Add ${mediaId}`);
 
       let mediaImage = media.image;
       // check if media already exist in db
