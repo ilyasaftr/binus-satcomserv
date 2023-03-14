@@ -148,10 +148,16 @@ async function taskCheckInstagramPost() {
       } else {
         textCaption += 'Please check the image!';
       }
+      textCaption += '\n\n';
+      textCaption += 'Event Details :\n';
+      textCaption += instagramMediaText;
+      let finaltextCaption = textCaption.substring(0, textCaption.length > 2000 ? 2000 : textCaption.length);
+
+      // image validation
       await convertToSquare(fullPath);
       await addBorder(fullPath, fullPath, instagramUsername);
       const instagramPost = new instagramPostModel({
-        instagramPostCaption: textCaption,
+        instagramPostCaption: finaltextCaption,
         instagramMediaPath: instagramMediaPath,
         status: 0,
       });
