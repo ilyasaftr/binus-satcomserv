@@ -1,4 +1,4 @@
-FROM node:lts
+FROM 16-bullseye
 RUN apt-get update -y && apt-get install -y graphicsmagick
 WORKDIR /app
 COPY package.json ./
