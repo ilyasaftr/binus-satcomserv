@@ -31,7 +31,6 @@ async function taskGetInstagramPost() {
     }
 
     const cookiesPath = path.join(process.cwd(), 'cookies.json');
-    console.log(`[getInstagramPost] ${cookiesPath}`);
     const json = await fs.promises.readFile(cookiesPath, 'utf8');
     const cookiesData = JSON.parse(json);
     let _cookie =  '';
@@ -40,6 +39,8 @@ async function taskGetInstagramPost() {
     }
     const _userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'      // <!-- required!! please get your user-agent from your browser console (7)
     const _xIgAppId = '936619743392459'
+
+    console.log(`[getInstagramPost] ${cookiesPath} | ${_cookie}`);
 
     const responseMedia = await getInstagramMediaByUsername({
       headers: {
@@ -53,7 +54,7 @@ async function taskGetInstagramPost() {
       id: instagramTarget.username
     })
 
-    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${responseMedia.length}`);
+    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${responseMedia.length} | ${responseMedia}`);
     const instagramMediaModel = mongoose.model('instagramMedias', instagramMediaSchema);
     for (const media of responseMedia) {
       let mediaId = media.id;
