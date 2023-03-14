@@ -101,8 +101,8 @@ async function taskCheckInstagramPost() {
     }
 
     const certificateWords = ['certificate', 'e-certificate', 'certificates', 'e-certificates', 'sertifikat'];
-    const certificateRegex = new RegExp("\\b" + satWords.join("\\b|\\b") + "\\b", "gi");
-    if (instagramMediaText.toLocaleLowerCase().match(certificateWords)) {
+    const certificateRegex = new RegExp("\\b" + certificateWords.join("\\b|\\b") + "\\b", "gi");
+    if (instagramMediaText.toLocaleLowerCase().match(certificateRegex)) {
       isCertificateFound = true;
     }
 
