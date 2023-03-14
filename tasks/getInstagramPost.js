@@ -92,7 +92,6 @@ async function taskGetInstagramPost() {
         console.log(`[getInstagramPost] Skip ${mediaId} because mediaTime is more than 1 week ago`);
         continue;
       }
-      console.log(`[getInstagramPost] Add ${mediaId}`);
 
       let mediaImage = media.image;
       // check if media already exist in db
@@ -101,6 +100,7 @@ async function taskGetInstagramPost() {
       });
 
       if (instagramMediaCount === 0) {
+        console.log(`[getInstagramPost] ${mediaId} added to db`);
         const fullFileName = `${mediaId}.jpg`;
         const dirPath = path.join(process.cwd(), 'images');
         if (!fs.existsSync(dirPath)) {
