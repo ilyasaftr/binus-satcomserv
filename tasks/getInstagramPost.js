@@ -16,10 +16,10 @@ async function taskGetInstagramPost() {
       return;
     }
 
-    // get one instagram target from db with oldest updatedAt and updatedAt must be more than 60 minutes ago
+    // get one instagram target from db with oldest updatedAt and updatedAt must be more than 60 minutes ago or longer
     const instagramTarget = await instagramTargetModel.findOne({
       updatedAt: {
-        $lte: new Date(Date.now() - 60 * 60 * 1000),
+        $lte: new Date(Date.now() - 60 * (60 * 1000)),
       },
     }).sort({
       updatedAt: 1,
@@ -52,7 +52,7 @@ async function taskGetInstagramPost() {
       id: instagramTarget.username
     })
 
-    console.log(`[getInstagramPost] Updating ${instagramTarget.username}...`);
+    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${responseMedia.length}`);
     const instagramMediaModel = mongoose.model('instagramMedias', instagramMediaSchema);
     for (const media of responseMedia) {
       let mediaId = media.id;
