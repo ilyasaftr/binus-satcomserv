@@ -151,8 +151,8 @@ async function taskCheckInstagramPost() {
       textCaption += '\n\n';
       textCaption += 'Event Details :\n';
       textCaption += instagramMediaText;
+      textCaption = textCaption.replace('@', '[at]');
       let finaltextCaption = textCaption.substring(0, textCaption.length > 2000 ? 2000 : textCaption.length);
-      finaltextCaption = finaltextCaption.replace('@', '');
       // image validation
       await convertToSquare(fullPath);
       await addBorder(fullPath, fullPath, instagramUsername);
