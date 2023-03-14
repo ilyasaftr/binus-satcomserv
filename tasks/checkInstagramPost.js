@@ -127,7 +127,7 @@ async function taskCheckInstagramPost() {
         if (links.length > 0) {
           for (const link of links) {
             // if link contains integer after dot or at then continue
-            if (link.match(/\.\d+/) || link.includes('@') || link.includes(',')) {
+            if (link.match(/\.\d+/) || link.includes('@') || link.includes(',') || link.includes('M.')) {
               continue;
             }
 

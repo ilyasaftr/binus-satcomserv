@@ -4,6 +4,9 @@
 ### Node ###
 # Logs
 .DS_Store
+cookies.json
+instagram-cache.json
+test.js
 logs
 *.log
 npm-debug.log*
