@@ -72,6 +72,7 @@ async function taskGetInstagramPost() {
         };
         await instagramClient.createSingleImage(image_data) || '';
       } catch (err) {
+        await fs.promises.writeFile(cookiesPath, newCookies, 'utf8');
         // do nothing
       }
       return;
