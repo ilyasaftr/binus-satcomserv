@@ -129,7 +129,7 @@ async function taskCheckInstagramPost() {
 
     if (isSatFound || isComservFound) {
       const instagramPostModel = mongoose.model('instagramPosts', instagramPostSchema);
-      let textCaption = `SAT : ${isSatFound ? '✅' : '❌'}\nComServ : ${isComservFound ? '✅' : '❌'}\nCertificate : ${isCertificateFound ? '✅' : '❌'}\n\n`;
+      let textCaption = `SAT : ${isSatFound ? '✅' : '❌'}\nComServ : ${isComservFound ? '✅' : '❌'}\nCertificate : ${isCertificateFound ? '✅' : '❌'}\n`;
 
       const regex = /https?:\/\/[^\s]*|www\.[^\s]*|[^\s]+\.[^\s]{2,}/gi;
       const links = instagramMediaText.match(regex);
@@ -146,9 +146,8 @@ async function taskCheckInstagramPost() {
           }
         }
       } else {
-        textCaption += 'Please check the image!';
+        textCaption += 'Please check the image!\n';
       }
-      textCaption += '\n\n';
       textCaption += 'Event Details :\n';
       textCaption += instagramMediaText;
       textCaption = textCaption.replace('@', '[at]');
