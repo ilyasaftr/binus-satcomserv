@@ -31,6 +31,7 @@ async function taskGetInstagramPost() {
     }
 
     const cookiesPath = path.join(process.cwd(), 'cookies.json');
+    console.log(`[getInstagramPost] ${cookiesPath}`);
     const json = await fs.promises.readFile(cookiesPath, 'utf8');
     const cookiesData = JSON.parse(json);
     let _cookie =  '';
