@@ -54,7 +54,7 @@ async function taskGetInstagramPost() {
       id: instagramTarget.username
     })
 
-    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${responseMedia.length} | ${responseMedia}`);
+    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${responseMedia.length}`);
     const instagramMediaModel = mongoose.model('instagramMedias', instagramMediaSchema);
     for (const media of responseMedia) {
       let mediaId = media.id;
