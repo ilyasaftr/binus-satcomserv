@@ -1,18 +1,12 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const fs = require('fs');
-const connectDB = require('../config/database');
+const path = require('path');
 const instagramTargetSchema = require('../models/instagramTargetModel');
 
 async function UpdateInstagramTarget() {
-  try {
-    await connectDB();
-    console.log('Application started successfully!');
-  } catch (err) {
-    console.error(err);
-  }
-
-  const data = await fs.promises.readFile('./targetInstagram.txt', 'utf8');
+  const fullPath = path.join(process.cwd(), 'targetInstagram.txt');
+  const data = await fs.promises.readFile(fullPath, 'utf8');
   const dataArr = data.split('\n');
   for(let i = 0; i < dataArr.length; i++) {
     const targetUsername = dataArr[i];
@@ -37,9 +31,6 @@ async function UpdateInstagramTarget() {
       console.log(e);
     }
   }
-
-  mongoose.connection.close();
-  process.exit(0);
 };
 
 module.exports = UpdateInstagramTarget;

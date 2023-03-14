@@ -8,8 +8,8 @@ const instagramClient = require('./config/instagram');
 
 async function main() {
   try {
-    await UpdateInstagramTarget();
     await connectDB();
+    await UpdateInstagramTarget();
     // trying login to instagram
     try {
       const image_data = {
