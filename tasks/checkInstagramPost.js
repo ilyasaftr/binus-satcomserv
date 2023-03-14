@@ -166,7 +166,7 @@ async function taskCheckInstagramPost() {
       }
       textCaption += '\n';
       textCaption += 'Event Details :\n';
-      textCaption += removeHashtags(instagramMediaText);
+      textCaption += await removeHashtags(instagramMediaText);
       textCaption = textCaption.replace('@', '[at]');
       let finaltextCaption = textCaption.substring(0, textCaption.length > 2000 ? 2000 : textCaption.length);
       // image validation
