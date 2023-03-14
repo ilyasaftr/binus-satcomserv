@@ -148,6 +148,7 @@ async function taskCheckInstagramPost() {
       } else {
         textCaption += 'Please check the image!\n';
       }
+      textCaption += '\n';
       textCaption += 'Event Details :\n';
       textCaption += instagramMediaText;
       textCaption = textCaption.replace('@', '[at]');
