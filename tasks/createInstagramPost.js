@@ -61,7 +61,7 @@ async function taskCreateInstagramPost() {
     }
   } catch (err) {
     console.log('[createInstagramPost] ' + err);
-    instagramPost.status = 1;
+    instagramPost.status = 2;
     instagramPost.updatedAt = Date.now();
     await instagramPost.save();
     // await fs.promises.unlink(fullPath);
