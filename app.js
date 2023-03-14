@@ -1,6 +1,6 @@
 require('dotenv').config();
 const connectDB = require('./config/database');
-const updateInstagramTarget = require('./cmd/addManualTarget');
+const { addManual } = require('./cmd/addManualTarget');
 const taskGetInstagramPost = require('./tasks/getInstagramPost');
 const taskCheckInstagramPost = require('./tasks/checkInstagramPost');
 const taskCreateInstagramPost = require('./tasks/createInstagramPost');
@@ -9,7 +9,7 @@ const instagramClient = require('./config/instagram');
 async function main() {
   try {
     await connectDB();
-    await updateInstagramTarget();
+    await addManual();
     // trying login to instagram
     try {
       const image_data = {
