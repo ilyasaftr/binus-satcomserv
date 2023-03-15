@@ -19,11 +19,7 @@ async function main() {
       };
       await instagramClient.createSingleImage(image_data) || '';
     } catch (err) {
-      console.log('Login to instagram failed, please check your cookies');
-      console.log(err);
       // do nothing
-    } finally {
-      console.log('Login to instagram success');
     }
 
     taskGetInstagramPost();
@@ -31,7 +27,6 @@ async function main() {
     taskCreateInstagramPost();
   } catch (err) {
     console.log('Login to instagram failed, please check your cookies');
-    console.log(err);
   }
 }
 

@@ -75,7 +75,6 @@ async function taskGetInstagramPost() {
         await instagramClient.createSingleImage(image_data) || '';
       } catch (err) {
         console.log('[getInstagramPost] Error while trying to login to instagram');
-        console.log(err);
         // do nothing
       }
       return;
