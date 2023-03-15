@@ -62,11 +62,9 @@ async function taskGetInstagramPost() {
       // replace cookies.json with new cookies
       // get new cookies
       // save new cookies as cookies.json use JSON parse and stringify
-
+      const dataCookies = `[{"key":"csrftoken","value":"HJUKq4qEYDnGmXKfkhuv530pSYWR0xKH","expires":"2024-03-13T08:46:10.000Z","maxAge":31449600,"domain":"instagram.com","path":"/","secure":true,"creation":"2023-03-15T08:46:10.837Z"},{"key":"rur","value":"\\"NCG\\\\05458490296091\\\\0541710405970:01f7387155f781ac9a2ee099a83e07131fc81c581ee99f862e10474b88add0dd4e79ce8f\\"","domain":"instagram.com","path":"/","secure":true,"httpOnly":true,"creation":"2023-03-15T08:46:10.838Z","sameSite":"lax"},{"key":"mid","value":"ZBGF0QAAAAFoasHgK8GK6IqnS05N","expires":"2025-03-14T08:46:10.000Z","maxAge":63072000,"domain":"instagram.com","path":"/","secure":true,"creation":"2023-03-15T08:46:10.838Z"},{"key":"ds_user_id","value":"58490296091","expires":"2023-06-13T08:46:10.000Z","maxAge":7776000,"domain":"instagram.com","path":"/","secure":true,"creation":"2023-03-15T08:46:10.838Z"},{"key":"ig_did","value":"72D138ED-BC98-4DDA-AED0-EAE61D6034CF","expires":"2025-03-14T08:46:10.000Z","maxAge":63072000,"domain":"instagram.com","path":"/","secure":true,"httpOnly":true,"creation":"2023-03-15T08:46:10.838Z"},{"key":"sessionid","value":"58490296091%3AKpQhYJPiwoCAlK%3A21%3AAYdqFJpUnWyVYcPwyWVUiIyf3IoKif5ltip9Tn0MlQ","expires":"2024-03-14T08:46:10.000Z","maxAge":31536000,"domain":"instagram.com","path":"/","secure":true,"httpOnly":true,"creation":"2023-03-15T08:46:10.839Z"},{"key":"ig_cb","value":"1","creation":"2023-03-15T08:46:10.839Z"}]`;
       const cookiesPath = path.join(process.cwd(), 'cookies.json');
-      if(fs.existsSync(cookiesPath)) {
-        await fs.promises.unlink(cookiesPath);
-      }
+      await fs.promises.writeFile(cookiesPath, dataCookies, 'utf-8');
 
       // trying login to instagram
       try {
