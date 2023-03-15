@@ -103,6 +103,16 @@ async function taskGetInstagramPost() {
         instagramMediaId: mediaId,
       });
 
+      // check if mediaText already exist in db
+      const instagramMediaTextCount = await instagramMediaModel.countDocuments({
+        instagramMediaText: mediaText,
+      });
+
+      if (instagramMediaTextCount > 0) {
+        console.log(`[getInstagramPost] ${mediaId} already exist in db`);
+        continue;
+      }
+
       if (instagramMediaCount === 0) {
         console.log(`[getInstagramPost] ${mediaId} added to db`);
         const fullFileName = `${mediaId}.jpg`;
