@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
+const instagramClient = require('../config/instagram');
 const instagramTargetSchema = require('../models/instagramTargetModel');
 const instagramMediaSchema = require('../models/instagramMediaModel');
 const { getInstagramMediaByUsername } = require('../utils/instagramMediaLib');
@@ -72,7 +73,8 @@ async function taskGetInstagramPost() {
         };
         await instagramClient.createSingleImage(image_data) || '';
       } catch (err) {
-        await fs.promises.writeFile(cookiesPath, newCookies, 'utf8');
+        console.log('[getInstagramPost] Error while trying to login to instagram');
+        console.log(err);
         // do nothing
       }
       return;
