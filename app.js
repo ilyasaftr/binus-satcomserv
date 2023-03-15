@@ -22,7 +22,9 @@ async function main() {
       await instagramClient.createSingleImage(image_data) || '';
     } catch (err) {
       const cookiesPath = path.join(process.cwd(), 'cookies.json');
-      await fs.promises.unlink(cookiesPath);
+      if(fs.existsSync(cookiesPath)) {
+        await fs.promises.unlink(cookiesPath);
+      }
       console.log('Login to instagram failed, please check your cookies');
       console.log(err);
       // do nothing

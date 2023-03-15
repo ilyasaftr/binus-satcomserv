@@ -64,7 +64,9 @@ async function taskGetInstagramPost() {
       // save new cookies as cookies.json use JSON parse and stringify
 
       const cookiesPath = path.join(process.cwd(), 'cookies.json');
-      await fs.promises.unlink(cookiesPath);
+      if(fs.existsSync(cookiesPath)) {
+        await fs.promises.unlink(cookiesPath);
+      }
 
       // trying login to instagram
       try {
