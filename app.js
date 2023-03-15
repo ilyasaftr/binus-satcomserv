@@ -1,7 +1,5 @@
 require('dotenv').config();
 require('events').EventEmitter.defaultMaxListeners = 100;
-const fs = require('fs');
-const path = require('path');
 const connectDB = require('./config/database');
 const UpdateInstagramTarget = require('./cmd/addManualTarget');
 const taskGetInstagramPost = require('./tasks/getInstagramPost');
@@ -34,7 +32,6 @@ async function main() {
   } catch (err) {
     console.log('Login to instagram failed, please check your cookies');
     console.log(err);
-    console.error(err);
   }
 }
 
