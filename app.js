@@ -12,7 +12,7 @@ async function main() {
     await UpdateInstagramTarget();
     taskGetInstagramPost();
     taskCheckInstagramPost();
-    // taskCreateInstagramPost();
+    taskCreateInstagramPost();
   } catch (err) {
     console.log('Login to instagram failed, please check your cookies');
   }
