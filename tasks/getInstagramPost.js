@@ -1,10 +1,30 @@
 const mongoose = require('mongoose');
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const instagramClient = require('../config/instagram');
 const instagramTargetSchema = require('../models/instagramTargetModel');
 const instagramMediaSchema = require('../models/instagramMediaModel');
-const { getInstagramMediaByUsername } = require('../utils/instagramMediaLib');
+
+async function downloadImage(url, dest) {
+  try {
+    const response = await axios({
+      method: 'get',
+      url: url,
+      responseType: 'stream'
+    });
+    response.data.pipe(fs.createWriteStream(dest));
+    return new Promise((resolve, reject) => {
+      response.data.on('end', () => {
+        resolve();
+      });
+      response.data.on('error', (err) => {
+        reject(err);
+      });
+    });
+  } catch (err) {
+    console.error('[getInstagramPost] ', err);
+  }
+};
 
 async function taskGetInstagramPost() {
   try {
@@ -30,64 +50,24 @@ async function taskGetInstagramPost() {
       console.log('[getInstagramPost] No instagram target to update found');
       return;
     }
-
-    const cookiesPath = path.join(process.cwd(), 'cookies.json');
-    const json = await fs.promises.readFile(cookiesPath, 'utf8');
-    const cookiesData = JSON.parse(json);
-    let _cookie =  '';
-    for(data of cookiesData){
-        _cookie += `${data['key']}=${data['value']}; `;
-    }
-    const _userAgent = 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1'      // <!-- required!! please get your user-agent from your browser console (7)
-    const _xIgAppId = '936619743392459'
-
-    console.log(`[getInstagramPost] ${cookiesPath} | ${_cookie}`);
-
-    const responseMedia = await getInstagramMediaByUsername({
-      headers: {
-          'cookie': _cookie,
-          'user-agent': _userAgent,
-          'x-ig-app-id': _xIgAppId
-      },
-      time: 0,
-      base64images: true,
-      maxImages: 12,
-      id: instagramTarget.username
-    })
-
-    if (responseMedia.length == 0) {
-      console.log(`[getInstagramPost] No media found for ${instagramTarget.username} or cookies expired`);
-      console.log('[getInstagramPost] Getting new cookies...');
-      // set cookies expired
-      // replace cookies.json with new cookies
-      // get new cookies
-      // save new cookies as cookies.json use JSON parse and stringify
-      // const dataCookies = `[{"key":"csrftoken","value":"HJUKq4qEYDnGmXKfkhuv530pSYWR0xKH","expires":"2021-03-13T08:46:10.000Z","maxAge":31449600,"domain":"instagram.com","path":"/","secure":true,"creation":"2021-03-15T08:46:10.837Z"},{"key":"rur","value":"\\"NCG\\\\05458490296091\\\\0541710405970:01f7387155f781ac9a2ee099a83e07131fc81c581ee99f862e10474b88add0dd4e79ce8f\\"","domain":"instagram.com","path":"/","secure":true,"httpOnly":true,"creation":"2021-03-15T08:46:10.838Z","sameSite":"lax"},{"key":"mid","value":"ZBGF0QAAAAFoasHgK8GK6IqnS05N","expires":"2021-03-14T08:46:10.000Z","maxAge":63072000,"domain":"instagram.com","path":"/","secure":true,"creation":"2021-03-15T08:46:10.838Z"},{"key":"ds_user_id","value":"58490296091","expires":"2021-06-13T08:46:10.000Z","maxAge":7776000,"domain":"instagram.com","path":"/","secure":true,"creation":"2021-03-15T08:46:10.838Z"},{"key":"ig_did","value":"72D138ED-BC98-4DDA-AED0-EAE61D6034CF","expires":"2021-03-14T08:46:10.000Z","maxAge":63072000,"domain":"instagram.com","path":"/","secure":true,"httpOnly":true,"creation":"2021-03-15T08:46:10.838Z"},{"key":"sessionid","value":"58490296091%3AKpQhYJPiwoCAlK%3A21%3AAYdqFJpUnWyVYcPwyWVUiIyf3IoKif5ltip9Tn0MlQ","expires":"2021-03-14T08:46:10.000Z","maxAge":31536000,"domain":"instagram.com","path":"/","secure":true,"httpOnly":true,"creation":"2021-03-15T08:46:10.839Z"},{"key":"ig_cb","value":"1","creation":"2021-03-15T08:46:10.839Z"}]`;
-      const cookiesPath = path.join(process.cwd(), 'cookies.json');
-      await fs.promises.unlink(cookiesPath);
-      // await fs.promises.writeFile(cookiesPath, dataCookies, 'utf-8');
-
-      // trying login to instagram
-      // try {
-      //   const image_data = {
-      //     image_path: './a.jpg',
-      //     caption: 'Image caption',
-      //   };
-      //   await instagramClient.createSingleImage(image_data) || '';
-      // } catch (err) {
-      //   // do nothing
-      // }
+    const axiosConfig = {
+      method: 'post',
+      url: `https://satcomserv.kodex.id/getMedias/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&target_username=${instagramTarget.username}`,
+    };
+    const response = await axios(axiosConfig);
+    if (response.status !== 200) {
+      console.log('[getInstagramPost] Failed to get instagram post');
       return;
     }
-
-    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${responseMedia.length}`);
+    const dataJSON = response.data;
+    console.log(`[getInstagramPost] Updating ${instagramTarget.username} | ${dataJSON.length}`);
     const instagramMediaModel = mongoose.model('instagramMedias', instagramMediaSchema);
-    for (const media of responseMedia) {
-      let mediaId = media.id;
-      let mediaText = media.text;
-      let mediaTime = media.time;
+    for (const media of dataJSON) {
+      let mediaId = media.pk;
+      let mediaText = media.caption_text;
+      let mediaTime = media.taken_at;
       // convert media time to date
-      mediaTime = new Date(mediaTime * 1000);
+      mediaTime = new Date(mediaTime);
 
       // continue if mediaTime 1 week ago
       const oneWeekAgo = new Date(Date.now() - 7 * (24 * 60 * 60 * 1000));
@@ -96,7 +76,7 @@ async function taskGetInstagramPost() {
         continue;
       }
 
-      let mediaImage = media.image;
+      let mediaImage = media.thumbnail_url;
       // check if media already exist in db
       const instagramMediaCount = await instagramMediaModel.countDocuments({
         instagramMediaId: mediaId,
@@ -121,8 +101,7 @@ async function taskGetInstagramPost() {
         }
 
         const fullPath = path.join(dirPath, fullFileName);
-        const buffer = Buffer.from(mediaImage, "base64");
-        await fs.promises.writeFile(fullPath, buffer);
+        await downloadImage(mediaImage, fullPath);
 
         // create new media
         const instagramMedia = new instagramMediaModel({
@@ -144,8 +123,8 @@ async function taskGetInstagramPost() {
   } catch (err) {
     console.log('[getInstagramPost] ', err);
   } finally {
-    console.log('[getInstagramPost] Waiting for 1 minute...');
-    setTimeout(taskGetInstagramPost, 60 * 1000);
+    console.log('[getInstagramPost] Waiting for 5 minute...');
+    setTimeout(taskGetInstagramPost, 5 * (60 * 1000));
   }
 }
 

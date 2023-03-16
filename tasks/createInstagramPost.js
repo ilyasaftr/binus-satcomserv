@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
-const instagramClient = require('../config/instagram');
 const instagramPostSchema = require('../models/instagramPostModel');
+const FormData = require('form-data');
 
 async function taskCreateInstagramPost() {
     // check if there is instagram post with status 0
@@ -45,12 +45,19 @@ async function taskCreateInstagramPost() {
   const fullPath = path.join(dirPath, instagramMediaPath);
   try {
     // create instagram post
-    const image_data = {
-      image_path: fullPath,
-      caption: instagramPostCaption,
+    const formData = new FormData();
+    formData.append('file', fs.createReadStream(fullPath));
+    const axiosConfig = {
+      method: 'post',
+      url: `https://satcomserv.kodex.id/postMedia/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&caption=${instagramPostCaption}`,
+      headers: {
+        ...data.getHeaders()
+      },
+      data : formData
     };
-    const created = await instagramClient.createSingleImage(image_data);
-    if (created) {
+
+    const response = await axios(axiosConfig);
+    if (response.status === 200) {
       console.log('[createInstagramPost] Instagram post created');
       instagramPost.status = 1;
       instagramPost.updatedAt = Date.now();
@@ -64,10 +71,10 @@ async function taskCreateInstagramPost() {
     instagramPost.status = 2;
     instagramPost.updatedAt = Date.now();
     await instagramPost.save();
-    // await fs.promises.unlink(fullPath);
+    await fs.promises.unlink(fullPath);
   } finally {
-    console.log('[createInstagramPost] Waiting for 1 minute...');
-    setTimeout(taskCreateInstagramPost, 60 * 1000);
+    console.log('[createInstagramPost] Waiting for 5 minute...');
+    setTimeout(taskCreateInstagramPost, 5 * (60 * 1000));
   }
 }
 
