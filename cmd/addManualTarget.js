@@ -15,8 +15,9 @@ async function UpdateInstagramTarget() {
     // check if target already exists in db
     const checkUsername = await instagramTargetModel.findOne({
       username: targetUsername,
-      // update at least 1 year ago
-      updatedAt: { $lt: new Date(Date.now() - 365 * (24 * 60 * 60 * 1000)) },
+      updatedAt: {
+        $gte: new Date(Date.now() - 60 * (60 * 1000)),
+      },
     });
 
     if (checkUsername) {
@@ -27,6 +28,8 @@ async function UpdateInstagramTarget() {
     try {
       const instagramTarget = new instagramTargetModel();
       instagramTarget.username = targetUsername;
+      // set updateAt 1 year ago
+      instagramTarget.updatedAt = new Date(Date.now() - 60 * (60 * 1000) * 24 * 365);
       await instagramTarget.save();
       console.log(`[${i+1}/${dataArr.length}] ${targetUsername} added to database`);
     } catch (e) {
