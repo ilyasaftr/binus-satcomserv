@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const instagramPostSchema = require('../models/instagramPostModel');
 const FormData = require('form-data');
+const axios = require('axios');
 
 async function taskCreateInstagramPost() {
     // check if there is instagram post with status 0
@@ -39,7 +40,8 @@ async function taskCreateInstagramPost() {
       createdAt: 1,
     });
 
-  const instagramPostCaption = instagramPost.instagramPostCaption;
+  let instagramPostCaption = instagramPost.instagramPostCaption;
+  instagramPostCaption = Buffer.from(instagramPostCaption, 'utf8').toString('base64');
   const instagramMediaPath = instagramPost.instagramMediaPath;
   const dirPath = path.join(process.cwd(), 'images');
   const fullPath = path.join(dirPath, instagramMediaPath);
@@ -49,9 +51,9 @@ async function taskCreateInstagramPost() {
     formData.append('file', fs.createReadStream(fullPath));
     const axiosConfig = {
       method: 'post',
-      url: `https://satcomserv.kodex.id/postMedia/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&caption=${instagramPostCaption}`,
+      url: `http://127.0.0.1:8000/postMedia/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&caption=${instagramPostCaption}`,
       headers: {
-        ...data.getHeaders()
+        ...formData.getHeaders()
       },
       data : formData
     };

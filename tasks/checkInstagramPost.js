@@ -8,7 +8,7 @@ const gm = require('gm').subClass({imageMagick: true});
 
 async function isExist(path) {
   try {
-    await fs.promose.access(path);
+    await fs.promises.access(path);
     return true;
   } catch {
     return false;

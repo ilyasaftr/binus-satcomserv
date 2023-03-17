@@ -52,7 +52,7 @@ async function taskGetInstagramPost() {
     }
     const axiosConfig = {
       method: 'post',
-      url: `https://satcomserv.kodex.id/getMedias/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&target_username=${instagramTarget.username}`,
+      url: `http://127.0.0.1:8000/getMedias/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&target_username=${instagramTarget.username}`,
     };
     const response = await axios(axiosConfig);
     if (response.status !== 200) {
