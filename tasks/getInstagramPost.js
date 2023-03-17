@@ -74,7 +74,7 @@ async function taskGetInstagramPost() {
         continue;
       }
 
-      let mediaImage = media.thumbnail_url;
+      let mediaImage = media.thumbnail_url ? media.thumbnail_url : media.resources[0]?.thumbnail_url;
       // check if media already exist in db
       const instagramMediaCount = await instagramMediaModel.countDocuments({
         instagramMediaId: mediaId,
