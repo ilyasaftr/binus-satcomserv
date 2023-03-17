@@ -30,14 +30,12 @@ async function taskGetInstagramPost() {
   try {
     const instagramTargetModel = mongoose.model('instagramTargets', instagramTargetSchema);
 
-    // check if there is any instagram target in db
     const instagramTargetCount = await instagramTargetModel.countDocuments();
     if (instagramTargetCount === 0) {
       console.log('[getInstagramPost] No instagram target found');
       return;
     }
 
-    // get one instagram target from db with oldest updatedAt and updatedAt must be more than 60 minutes ago or longer
     const instagramTarget = await instagramTargetModel.findOne({
       updatedAt: {
         $lte: new Date(Date.now() - 60 * (60 * 1000)),
