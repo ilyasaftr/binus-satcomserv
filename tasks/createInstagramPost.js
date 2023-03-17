@@ -51,7 +51,7 @@ async function taskCreateInstagramPost() {
     formData.append('file', fs.createReadStream(fullPath));
     const axiosConfig = {
       method: 'post',
-      url: `http://127.0.0.1:8000/postMedia/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&caption=${instagramPostCaption}`,
+      url: `https://satcomserv.kodex.id/postMedia/?username=${process.env.INSTAGRAM_USERNAME}&password=${process.env.INSTAGRAM_PASSWORD}&caption=${instagramPostCaption}`,
       headers: {
         ...formData.getHeaders()
       },
