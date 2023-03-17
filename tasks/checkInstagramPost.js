@@ -6,6 +6,15 @@ const instagramMediaSchema = require('../models/instagramMediaModel');
 const instagramPostSchema = require('../models/instagramPostModel');
 const gm = require('gm').subClass({imageMagick: true});
 
+async function isExist(path) {
+  try {
+    await fs.promose.access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function removeHashtags(str) {
   const regex = /#\w+\b/g; // regular expression to match all hashtags
   const hashtags = str.match(regex); // get all hashtags in the string
@@ -129,6 +138,17 @@ async function taskCheckInstagramPost() {
 
     const dirPath = path.join(process.cwd(), 'images');
     const fullPath = path.join(dirPath, instagramMediaPath);
+
+    let isFileExist = await isExist(fullPath);
+    if(isFileExist === false) {
+      // remove instagram media from db
+      await instagramMediaModel.deleteOne({
+        _id: instagramMedia._id,
+      });
+      console.log(`[checkInstagramPost] ${instagramMediaPath} not found and removed from db`);
+      return;
+    }
+
     const ocrSpaceResponse = await ocrSpace(fullPath, { apiKey: randomApiKey, OCREngine: '5' });
     const ocrText = ocrSpaceResponse.ParsedResults[0].ParsedText;
     if (ocrText.match(satRegex)) {
