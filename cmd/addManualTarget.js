@@ -14,10 +14,7 @@ async function UpdateInstagramTarget() {
 
     // check if target already exists in db
     const checkUsername = await instagramTargetModel.findOne({
-      username: targetUsername,
-      updatedAt: {
-        $gte: new Date(Date.now() - 60 * (60 * 1000)),
-      },
+      username: targetUsername
     });
 
     if (checkUsername) {
