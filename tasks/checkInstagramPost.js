@@ -15,22 +15,6 @@ async function isExist(path) {
   }
 }
 
-async function removeHashtags(str) {
-  const regex = /#\w+\b/g; // regular expression to match all hashtags
-  const hashtags = str.match(regex); // get all hashtags in the string
-
-  if (!hashtags) {
-    return str; // no hashtags found, return the original string
-  }
-
-  for (let i = 0; i < hashtags.length; i++) {
-    const hashtag = hashtags[i];
-    str = str.replace(hashtag, ''); // remove hashtag from the string
-  }
-
-  return str; // return the modified string
-}
-
 async function convertToSquare(imagePath) {
   return new Promise((resolve, reject) => {
     gm(imagePath)
@@ -186,8 +170,8 @@ async function taskCheckInstagramPost() {
       }
       textCaption += '\n';
       textCaption += 'Event Details :\n';
-      textCaption += await removeHashtags(instagramMediaText);
-      textCaption = textCaption.replace('@', '[at]');
+      textCaption = textCaption.replaceAll('#', '[hashtag]');
+      textCaption = textCaption.replaceAll('@', '[at]');
       let finaltextCaption = textCaption.substring(0, textCaption.length > 2000 ? 2000 : textCaption.length);
       // image validation
       await convertToSquare(fullPath);
