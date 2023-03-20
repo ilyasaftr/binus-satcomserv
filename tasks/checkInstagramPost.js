@@ -170,7 +170,7 @@ async function taskCheckInstagramPost() {
       }
       textCaption += '\n';
       textCaption += 'Event Details :\n';
-      textCaption = instagramMediaText.replaceAll('#', '[hashtag]');
+      textCaption += instagramMediaText.replaceAll('#', '[hashtag]');
       textCaption = textCaption.replaceAll('@', '[at]');
       let finaltextCaption = textCaption.substring(0, textCaption.length > 2000 ? 2000 : textCaption.length);
       // image validation
