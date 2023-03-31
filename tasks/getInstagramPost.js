@@ -38,7 +38,7 @@ async function taskGetInstagramPost() {
 
     const instagramTarget = await instagramTargetModel.findOne({
       updatedAt: {
-        $lte: new Date(Date.now() - 12 * (60 * (60 * 1000))),
+        $lte: new Date(Date.now() - 60 * (60 * 1000)),
       },
     }).sort({
       updatedAt: 1,
