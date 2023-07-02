@@ -2,6 +2,7 @@
 /* eslint-disable no-plusplus */
 const gm = require('gm').subClass({ imageMagick: true });
 const path = require('path');
+const { Buffer } = require('buffer');
 
 async function removeHashtags(str) {
   const regex = /#\w+\b/g; // regular expression to match all hashtags
@@ -68,8 +69,19 @@ const addBorder = async (inputPath, outputPath, username) => new Promise((resolv
     });
 });
 
+function base64Decode(encodedString) {
+  while (encodedString.length % 4 !== 0) {
+    encodedString += '=';
+  }
+
+  const decodedBuffer = Buffer.from(encodedString, 'base64');
+  const decodedString = decodedBuffer.toString('utf-8');
+  return decodedString;
+}
+
 module.exports = {
   removeHashtags,
   convertToSquare,
   addBorder,
+  base64Decode,
 };

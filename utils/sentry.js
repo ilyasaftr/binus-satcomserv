@@ -10,8 +10,8 @@ function sentryInit() {
   });
 }
 
-function sentryCapture(err, extra = {}) {
-  if (extra && Object.keys(extra).length > 0) {
+function sentryCapture(err, extra) {
+  if (extra.length > 0 || extra !== undefined) {
     Sentry.captureException(err, {
       extra: {
         response: JSON.stringify(extra),

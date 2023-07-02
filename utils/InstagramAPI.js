@@ -3,6 +3,7 @@ const shell = require('shelljs');
 const fs = require('fs');
 const { CurlGenerator } = require('curl-generator');
 const { sentryCapture } = require('./sentry');
+const { base64Decode } = require('./custom');
 
 class InstagramAPI {
   constructor() {
@@ -13,10 +14,10 @@ class InstagramAPI {
         'x-asbd-id': process.env.INSTAGRAM_ASBD,
         'x-csrftoken': process.env.INSTAGRAM_CSRF,
         'x-ig-app-id': process.env.INSTAGRAM_APP_ID,
-        'x-ig-www-claim': process.env.INSTAGRAM_WWW_CLAIM,
+        'x-ig-www-claim': base64Decode(process.env.INSTAGRAM_WWW_CLAIM),
         'sec-fetch-site': 'same-origin',
         'x-requested-with': 'XMLHttpRequest',
-        'cookie': process.env.INSTAGRAM_COOKIE,
+        'cookie': base64Decode(process.env.INSTAGRAM_COOKIE),
         'origin': 'https://www.instagram.com',
         'referer': 'https://www.instagram.com/',
       },
@@ -43,7 +44,7 @@ class InstagramAPI {
         responseJSON = JSON.parse(response);
       } catch (error) {
         console.log(`[InstagramAPI-getMediaByUsername] Failed to parse response to JSON: ${error.message}`);
-        sentryCapture(error, { response });
+        sentryCapture(error, response);
         return {
           status: 'error',
           message: `Failed to parse response to JSON: ${error.message}`,
@@ -108,7 +109,7 @@ class InstagramAPI {
         responseJSON = JSON.parse(response);
       } catch (error) {
         console.log(`[InstagramAPI-uploadMedia] Failed to parse response to JSON: ${error.message}`);
-        sentryCapture(error, { response });
+        sentryCapture(error, response);
         return {
           status: 'error',
           message: `Failed to parse response to JSON: ${error.message}`,
@@ -159,7 +160,7 @@ class InstagramAPI {
         responseJSON = JSON.parse(response);
       } catch (error) {
         console.log(`[InstagramAPI-configureMedia] Failed to parse response to JSON: ${error.message}`);
-        sentryCapture(error, { response });
+        sentryCapture(error, response);
         return {
           status: 'error',
           message: `Failed to parse response to JSON: ${error.message}`,
