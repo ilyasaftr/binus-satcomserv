@@ -43,7 +43,7 @@ class InstagramAPI {
         responseJSON = JSON.parse(response);
       } catch (error) {
         console.log(`[InstagramAPI-getMediaByUsername] Failed to parse response to JSON: ${error.message}`);
-        sentryCapture(error);
+        sentryCapture(error, { response });
         return {
           status: 'error',
           message: `Failed to parse response to JSON: ${error.message}`,
@@ -108,7 +108,7 @@ class InstagramAPI {
         responseJSON = JSON.parse(response);
       } catch (error) {
         console.log(`[InstagramAPI-uploadMedia] Failed to parse response to JSON: ${error.message}`);
-        sentryCapture(error);
+        sentryCapture(error, { response });
         return {
           status: 'error',
           message: `Failed to parse response to JSON: ${error.message}`,
@@ -159,7 +159,7 @@ class InstagramAPI {
         responseJSON = JSON.parse(response);
       } catch (error) {
         console.log(`[InstagramAPI-configureMedia] Failed to parse response to JSON: ${error.message}`);
-        sentryCapture(error);
+        sentryCapture(error, { response });
         return {
           status: 'error',
           message: `Failed to parse response to JSON: ${error.message}`,

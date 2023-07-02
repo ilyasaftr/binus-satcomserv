@@ -10,8 +10,16 @@ function sentryInit() {
   });
 }
 
-function sentryCapture(err) {
-  Sentry.captureException(err);
+function sentryCapture(err, extra = {}) {
+  if (extra && Object.keys(extra).length > 0) {
+    Sentry.captureException(err, {
+      extra: {
+        response: JSON.stringify(extra),
+      },
+    });
+  } else {
+    Sentry.captureException(err);
+  }
 }
 
 module.exports = { sentryInit, sentryCapture };
