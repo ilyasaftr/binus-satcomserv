@@ -138,7 +138,8 @@ RUN chmod +x out/curl_*
 # Create a final, minimal image with the compiled binaries
 # only.
 FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates curl graphicsmagick
+
 # Copy curl-impersonate from the builder image
 COPY --from=builder /build/install /usr/local
 # Update the loader's cache
@@ -148,9 +149,14 @@ COPY --from=builder /build/out /build/out
 # Wrapper scripts
 COPY --from=builder /build/out/curl_* /usr/local/bin/
 
-# Application image
-FROM node:16-bullseye
-RUN apt-get update -y && apt-get install -y graphicsmagick
+# Install Node.js
+ARG NODE_VERSION=16
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
+RUN apt-get install -y nodejs
+
+# Print Node.js and npm versions
+RUN node -v && npm -v
+
 WORKDIR /app
 COPY package.json ./
 RUN npm install -g pnpm && pnpm install
