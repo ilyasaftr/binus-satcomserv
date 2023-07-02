@@ -1,20 +1,22 @@
 require('dotenv').config();
 require('events').EventEmitter.defaultMaxListeners = 100;
+const { sentryInit } = require('./utils/sentry');
 const connectDB = require('./config/database');
 const UpdateInstagramTarget = require('./cmd/addManualTarget');
-const taskGetInstagramPost = require('./tasks/getInstagramPost');
-const taskCheckInstagramPost = require('./tasks/checkInstagramPost');
-const taskCreateInstagramPost = require('./tasks/createInstagramPost');
+const { taskGetMedia } = require('./tasks/getMedia');
+const { taskCheckMedia } = require('./tasks/checkMedia');
+const { taskCreatePost } = require('./tasks/createPost');
 
 async function main() {
   try {
+    sentryInit();
     await connectDB();
     await UpdateInstagramTarget();
-    taskGetInstagramPost();
-    taskCheckInstagramPost();
-    taskCreateInstagramPost();
-  } catch (err) {
-    console.log('Login to instagram failed, please check your cookies');
+    await taskGetMedia();
+    await taskCheckMedia();
+    await taskCreatePost();
+  } catch (error) {
+    console.log(error);
   }
 }
 
