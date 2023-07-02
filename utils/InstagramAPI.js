@@ -37,11 +37,12 @@ class InstagramAPI {
       };
       const generateCommand = CurlGenerator(curlConfig, { silent: true, compressed: true });
       const command = generateCommand.replace('curl', `${this.configData.curl_impersonate} -sS`);
-      const response = shell.exec(`${command}`, { async: false, silent: true }).stdout;
+      const response = shell.exec(`${command}`, { async: false, silent: true });
+      const responseStdout = response.stdout;
 
       let responseJSON = null;
       try {
-        responseJSON = JSON.parse(response);
+        responseJSON = JSON.parse(responseStdout);
       } catch (error) {
         console.log(`[InstagramAPI-getMediaByUsername] Failed to parse response to JSON: ${error.message}`);
         sentryCapture(error, response);
@@ -103,10 +104,11 @@ class InstagramAPI {
       const generateCommand = CurlGenerator(curlConfig, { silent: true, compressed: true });
       let command = generateCommand.replace('curl', `${this.configData.curl_impersonate} -sS`);
       command += ` --data-binary @${mediaPath}`;
-      const response = shell.exec(`${command}`, { async: false, silent: true }).stdout;
+      const response = shell.exec(`${command}`, { async: false, silent: true });
+      const responseStdout = response.stdout;
       let responseJSON = null;
       try {
-        responseJSON = JSON.parse(response);
+        responseJSON = JSON.parse(responseStdout);
       } catch (error) {
         console.log(`[InstagramAPI-uploadMedia] Failed to parse response to JSON: ${error.message}`);
         sentryCapture(error, response);
@@ -154,10 +156,11 @@ class InstagramAPI {
 
       const generateCommand = CurlGenerator(curlConfig, { silent: true, compressed: true });
       const command = generateCommand.replace('curl', `${this.configData.curl_impersonate} -sS`);
-      const response = shell.exec(`${command}`, { async: false, silent: true }).stdout;
+      const response = shell.exec(`${command}`, { async: false, silent: true });
+      const responseStdout = response.stdout;
       let responseJSON = null;
       try {
-        responseJSON = JSON.parse(response);
+        responseJSON = JSON.parse(responseStdout);
       } catch (error) {
         console.log(`[InstagramAPI-configureMedia] Failed to parse response to JSON: ${error.message}`);
         sentryCapture(error, response);
