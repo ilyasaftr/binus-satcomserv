@@ -132,7 +132,7 @@ RUN ver=$(readlink -f ${CURL_VERSION}/lib/.libs/libcurl-impersonate-chrome.so | 
 RUN ! (ldd ./out/curl-impersonate | grep -q -e nghttp2 -e brotli -e ssl -e crypto)
 
 # Wrapper scripts
-COPY curl-impersonate/chrome/curl_chrome* curl_edge* curl_safari* out/
+COPY curl-impersonate/chrome/curl_chrome* out/
 RUN chmod +x out/curl_*
 
 # Create a final, minimal image with the compiled binaries
