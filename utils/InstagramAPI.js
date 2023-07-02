@@ -38,6 +38,8 @@ class InstagramAPI {
       const generateCommand = CurlGenerator(curlConfig, { silent: true, compressed: true });
       const command = generateCommand.replace('curl', `${this.configData.curl_impersonate} -sS`);
       const response = shell.exec(`${command}`, { async: false, silent: true });
+      console.log('[InstagramAPI-getMediaByUsername]');
+      console.log(response);
       const responseStdout = response.stdout;
 
       let responseJSON = null;
