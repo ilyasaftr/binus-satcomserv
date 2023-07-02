@@ -1,0 +1,3 @@
+[submodule "curl-impersonate"]
+	path = curl-impersonate
+	url = git@github.com:lwthiker/curl-impersonate.git
