@@ -70,7 +70,7 @@ async function taskGetMedia() {
     sentryCapture(error);
   } finally {
     console.log('[getMedia] Task finished');
-    setTimeout(taskGetMedia, 1 * (60 * 1000));
+    setTimeout(taskGetMedia, 5 * (60 * 1000));
   }
 }
 
