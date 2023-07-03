@@ -47,8 +47,6 @@ class InstagramAPI {
         console.log(response);
       }
 
-      console.log(command);
-
       let responseJSON = null;
       try {
         responseJSON = JSON.parse(responseStdout);
