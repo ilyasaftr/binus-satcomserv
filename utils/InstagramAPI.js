@@ -41,9 +41,13 @@ class InstagramAPI {
       const responseStdout = response.stdout;
 
       if (process.env.NODE_ENV === 'development') {
+        console.log('[InstagramAPI-getMediaByUsername] Command:');
+        console.log(command);
         console.log('[InstagramAPI-getMediaByUsername] responseStdout:');
         console.log(response);
       }
+
+      console.log(command);
 
       let responseJSON = null;
       try {
@@ -113,6 +117,8 @@ class InstagramAPI {
       const responseStdout = response.stdout;
 
       if (process.env.NODE_ENV === 'development') {
+        console.log('[InstagramAPI-getMediaByUsername] Command:');
+        console.log(command);
         console.log('[InstagramAPI-getMediaByUsername] responseStdout:');
         console.log(response);
       }
@@ -171,6 +177,8 @@ class InstagramAPI {
       const responseStdout = response.stdout;
 
       if (process.env.NODE_ENV === 'development') {
+        console.log('[InstagramAPI-getMediaByUsername] Command:');
+        console.log(command);
         console.log('[InstagramAPI-getMediaByUsername] responseStdout:');
         console.log(response);
       }
