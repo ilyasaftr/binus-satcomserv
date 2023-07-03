@@ -40,6 +40,11 @@ class InstagramAPI {
       const response = shell.exec(`${command}`, { async: false, silent: true });
       const responseStdout = response.stdout;
 
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[InstagramAPI-getMediaByUsername] responseStdout:');
+        console.log(response);
+      }
+
       let responseJSON = null;
       try {
         responseJSON = JSON.parse(responseStdout);
@@ -106,6 +111,12 @@ class InstagramAPI {
       command += ` --data-binary @${mediaPath}`;
       const response = shell.exec(`${command}`, { async: false, silent: true });
       const responseStdout = response.stdout;
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[InstagramAPI-getMediaByUsername] responseStdout:');
+        console.log(response);
+      }
+
       let responseJSON = null;
       try {
         responseJSON = JSON.parse(responseStdout);
@@ -158,6 +169,12 @@ class InstagramAPI {
       const command = generateCommand.replace('curl', `${this.configData.curl_impersonate} -sS`);
       const response = shell.exec(`${command}`, { async: false, silent: true });
       const responseStdout = response.stdout;
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[InstagramAPI-getMediaByUsername] responseStdout:');
+        console.log(response);
+      }
+
       let responseJSON = null;
       try {
         responseJSON = JSON.parse(responseStdout);
