@@ -152,7 +152,7 @@ COPY --from=builder /build/out/curl_* /usr/local/bin/
 # Install Node.js
 ARG NODE_VERSION=16
 RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash -
-RUN apt-get install -y nodejs
+RUN apt-get update && apt-get install -y nodejs
 
 # Print Node.js and npm versions
 RUN node -v && npm -v
@@ -161,4 +161,5 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install -g pnpm && pnpm install
 COPY . .
+RUN apt-get update && apt-get install -y graphicsmagick
 CMD ["pnpm", "start"]
