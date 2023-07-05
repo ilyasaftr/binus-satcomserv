@@ -137,7 +137,7 @@ RUN chmod +x out/curl_*
 
 # Create a final, minimal image with the compiled binaries
 # only.
-FROM debian:bullseye-slim
+FROM debian:11
 RUN apt-get update && apt-get install -y ca-certificates curl graphicsmagick
 
 # Copy curl-impersonate from the builder image
