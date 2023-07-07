@@ -52,3 +52,4 @@ beehive_binus
 binusbusinessschool
 ie.binus
 ie.binus.semarang
+foodtechnology.binus
