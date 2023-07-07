@@ -31,7 +31,7 @@ async function taskCreatePost() {
       console.log('[createPost] Failed to upload media');
       postData.postStatus = 2;
       await postData.save();
-      await removeFile(mediaFilePath);
+      // await removeFile(mediaFilePath);
       return;
     }
 
@@ -42,7 +42,7 @@ async function taskCreatePost() {
       console.log('[createPost] Failed to create post');
       postData.postStatus = 2;
       await postData.save();
-      await removeFile(mediaFilePath);
+      // await removeFile(mediaFilePath);
       return;
     }
 
