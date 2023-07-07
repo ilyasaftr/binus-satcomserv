@@ -33,7 +33,7 @@ async function taskGetMedia() {
       const currentDate = dayjs();
       const formatTime = dayjs.unix(Number(mediaTime));
       const diffDays = dayjs(currentDate).diff(formatTime, 'day');
-      if (diffDays > 4) {
+      if (diffDays > 7) {
         console.log(`[getMedia] Skip ${mediaId} because mediaTime is more than 4 week ago | ${diffDays} days ago`);
         continue;
       }
