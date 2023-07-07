@@ -161,5 +161,6 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install -g pnpm && pnpm install
 COPY . .
-RUN apt-get update && apt-get install -y graphicsmagick
+RUN apt-get update && apt-get install -y graphicsmagick imagemagick
+RUN npm install gm
 CMD ["pnpm", "start"]
